@@ -1,0 +1,1 @@
+# databricks-spark-associate-certification
