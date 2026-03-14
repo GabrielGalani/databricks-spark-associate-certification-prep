@@ -7,6 +7,9 @@ building a realistic Spark data pipeline.
 This repository combines **conceptual learning** and a
 **production-style Spark project** using PySpark and Spark SQL.
 
+🔗 Databricks Certified Developer for Apache Spark Associate  
+https://www.databricks.com/learn/certification/apache-spark-developer-associate
+
 ------------------------------------------------------------------------
 
 # Project Goals
@@ -16,6 +19,9 @@ This repository combines **conceptual learning** and a
 -   Demonstrate Spark transformations and Spark SQL in a real pipeline
 -   Simulate a Lakehouse-style architecture
 -   Offer open learning material for the community
+-  🔗 Databricks Certified Developer for Apache Spark Associate  
+https://www.databricks.com/learn/certification/apache-spark-developer-associate
+
 
 ------------------------------------------------------------------------
 # Laboratory Learning Structure
@@ -364,6 +370,9 @@ https://docs.databricks.com/
 
 Spark SQL Guide\
 https://spark.apache.org/docs/latest/sql-programming-guide.html
+
+🔗 Databricks Certified Developer for Apache Spark Associate  
+https://www.databricks.com/learn/certification/apache-spark-developer-associate
 
 ------------------------------------------------------------------------
 
