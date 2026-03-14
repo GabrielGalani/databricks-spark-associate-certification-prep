@@ -1,6 +1,6 @@
 # Databricks Spark Associate Certification Preparation
 
-A hands-on project to help Data Engineers prepare for the **Databricks
+A hands-on project to help Engineers prepare for the **Databricks
 Certified Developer for Apache Spark Associate** certification while
 building a realistic Spark data pipeline.
 
@@ -18,7 +18,69 @@ This repository combines **conceptual learning** and a
 -   Offer open learning material for the community
 
 ------------------------------------------------------------------------
+# Laboratory Learning Structure
 
+The Bronze, Silver and Gold notebooks follow a **laboratory-style
+learning format** designed to reinforce both conceptual understanding
+and practical implementation.
+
+Each topic in the notebooks follows the structure below:
+
+1. **Definition**  
+   Introduction to the concept being studied.
+
+2. **Concept**  
+   Explanation of how the Spark feature works and when it is used.
+
+3. **Task**  
+   A practical exercise where the reader must implement the concept.
+
+4. **Why This Task Matters**  
+   Explanation of why the operation is important in real Spark
+   pipelines.
+
+5. **Your Solution**  
+   The section where the reader should implement their own solution.
+
+6. **Suggested Solution**  
+   A reference implementation showing one possible way to solve the
+   task.
+
+This structure encourages **active learning**, allowing readers to first
+think about the problem before reviewing the suggested solution.
+
+```mermaid
+flowchart TD
+
+A["📘 Definition  
+What is the concept?"] 
+
+B["🧠 Concept Explanation  
+How Spark works internally"]
+
+C["🧪 Task  
+Practical Spark exercise"]
+
+D["🎯 Why This Task Matters  
+Real-world Spark pipeline context"]
+
+E["💻 Your Solution  
+Implement the transformation"]
+
+F["✅ Suggested Solution  
+Reference implementation"]
+
+G["🔁 Next Spark Concept"]
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+
+```
+------------------------------------------------------------------------
 # Technologies
 
 -   Apache Spark
@@ -26,6 +88,7 @@ This repository combines **conceptual learning** and a
 -   Spark SQL
 -   Databricks concepts
 -   Lakehouse Architecture
+-   Delta Lake
 
 Key topics covered:
 
@@ -37,12 +100,13 @@ Key topics covered:
 -   Join strategies
 -   Window functions
 -   Nested data processing
+-   HyperLogLog approximations (`approx_count_distinct`)
 
 ------------------------------------------------------------------------
 
 # Project Architecture
 
-```mermaid
+``` mermaid
 flowchart LR
 
 A[Data Generator] --> B[RAW Layer]
@@ -62,10 +126,11 @@ D --> D1[Deduplication]
 D --> D2[Null Handling]
 D --> D3[Joins]
 D --> D4[Standardization]
+D --> D5[Nested Data Processing]
 
-E --> E1[Sales by Country]
-E --> E2[Top Products]
-E --> E3[Customer Lifetime Value]
+E --> E1[Sales Metrics Exact]
+E --> E2[Sales Metrics HLL]
+E --> E3[Top Products]
 E --> E4[Monthly Revenue]
 ```
 
@@ -80,29 +145,30 @@ concepts.
 
 # Repository Structure
 
-```mermaid
+``` mermaid
 flowchart TD
 
 A[databricks-spark-associate-certification-preparation]
 
 A --> B[data-generator]
 A --> C[notebooks]
-A --> D[data]
+A --> D[setup]
 A --> E[README.md]
 
 B --> B1[data_generator.py]
 
 C --> C1[01_spark_study_notebook]
-C --> C2[02_spark_project_pipeline]
+C --> C2[02_spark_project_bronze]
+C --> C3[03_spark_project_silver]
+C --> C4[04_spark_project_gold]
 
-D --> D1[raw]
-D --> D2[bronze]
-D --> D3[silver]
-D --> D4[gold]
+D --> D1[create_catalog.sql]
+D --> D2[create_schemas.sql]
+D --> D3[env.py]
 
-D1 --> D11[csv]
-D1 --> D12[json]
-D1 --> D13[parquet]
+B1 --> B11[csv]
+B1 --> B12[json]
+B1 --> B13[parquet]
 ```
 
 ------------------------------------------------------------------------
@@ -173,7 +239,8 @@ Includes:
 
 # Notebook 2 --- Spark Project Pipeline
 
-A concise **production-style Spark pipeline** applying best practices.
+A **production-style Spark pipeline** applying common Data Engineering
+practices.
 
 Pipeline stages:
 
@@ -185,18 +252,21 @@ BRONZE\
 - ingestion timestamp
 
 SILVER\
-- deduplication\
-- null handling\
-- joins\
-- normalization
+- missing data handling (`fillna`, `dropna`)\
+- deduplication (`distinct`, `dropDuplicates`)\
+- column transformations\
+- nested JSON processing (`flatten`, arrays, structs)\
+- joins between datasets\
+- partition optimization (`repartition`, `coalesce`)
 
-GOLD\
-Analytical tables such as:
+GOLD
 
--   sales_by_country
--   top_products
--   customer_lifetime_value
--   monthly_revenue
+Analytical datasets built using aggregations and window functions:
+
+-   **sales_metrics_exact** (exact aggregations)
+-   **sales_metrics_hll** (HyperLogLog approximation)
+-   **top_products**
+-   **monthly_revenue**
 
 Example Spark operations used:
 
@@ -208,7 +278,10 @@ Example Spark operations used:
 -   join
 -   explode
 -   flatten
+-   approx_count_distinct
 -   window functions
+-   repartition / coalesce
+-   partitionBy
 
 ------------------------------------------------------------------------
 
@@ -216,8 +289,7 @@ Example Spark operations used:
 
 ### 1. Clone the repository
 
-git clone
-https://github.com/`<your-user>`{=html}/databricks-spark-associate-certification-preparation
+    git clone https://github.com/<your-user>/databricks-spark-associate-certification-preparation
 
 ### 2. Generate synthetic data
 
@@ -233,7 +305,20 @@ Follow **Notebook 1**.
 
 ### 5. Run the pipeline
 
-Execute **Notebook 2**.
+Execute the **Bronze → Silver → Gold notebooks**.
+
+Each notebook follows the **laboratory learning structure** described
+earlier:
+
+- Definition
+- Concept explanation
+- Task
+- Why the task matters
+- Your Solution (where you implement the logic)
+- Suggested Solution
+
+This format allows readers to practice implementing Spark transformations
+before reviewing the reference implementation.
 
 ------------------------------------------------------------------------
 
@@ -246,6 +331,26 @@ After completing this project you will understand:
 -   how Spark optimizes queries
 -   how to process nested data
 -   how to build analytical data layers
+-   how to compare exact vs approximate aggregations (HyperLogLog)
+
+------------------------------------------------------------------------
+
+# Study Note
+
+⚠️ **Important**
+
+This laboratory includes **suggested solutions** for the exercises and
+pipeline tasks.
+
+Feel free to evolve the project by:
+
+-   adding new transformations
+-   improving data quality rules
+-   experimenting with Spark optimizations
+-   creating additional analytical datasets
+
+The goal is to use this repository as a **learning foundation** and
+evolve it into a **personal Data Engineering case study**.
 
 ------------------------------------------------------------------------
 
