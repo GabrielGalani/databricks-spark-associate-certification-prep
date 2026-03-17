@@ -299,7 +299,7 @@ Example Spark operations used:
 
 ### 2. Generate synthetic data
 
-Run the data generator.
+Run the setup and them run the data generator.
 
 ### 3. Open the notebooks
 
